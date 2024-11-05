@@ -15,13 +15,14 @@ async function queryWikidata() {
     PREFIX wikibase: <http://wikiba.se/ontology#>
     PREFIX bd: <http://www.bigdata.com/rdf#>
  
-    SELECT DISTINCT ?pokemonLabel WHERE {
+    SELECT DISTINCT ?pokemonLabel ?pokemonEnLabel WHERE {
       ?pokemon wdt:P31/wdt:P279* wd:Q3966183.
       FILTER EXISTS {
         ?pokemon rdfs:label ?pokemonLabel.
         FILTER(LANG(?pokemonLabel) = "ja")
       }
-      SERVICE wikibase:label { bd:serviceParam wikibase:language "ja". }
+      SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
+      
     }
     ORDER BY ?pokemonLabel
   `;
