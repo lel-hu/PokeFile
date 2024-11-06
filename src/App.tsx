@@ -55,9 +55,13 @@ const App = () => {
   };
 
   return (
-    <div>
-      <Typography variant="h3">PokeFile</Typography>
-      <Typography variant="h6">このポケモンのタイプは何でしょう？</Typography>
+    <div
+      style={{
+        padding: "10px",
+      }}
+    >
+      <Typography variant="h4">PokeFile</Typography>
+      <Typography variant="h6">ポケモンのタイプを当てよう！</Typography>
       <Box sx={{ p: 2 }} />
 
       <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
@@ -67,41 +71,79 @@ const App = () => {
         </IconButton>
       </Stack>
       <Box sx={{ p: 2 }} />
-      <Paper elevation={3} sx={{ p: 2, width: "fit-content" }}>
-        <Stack direction="row" spacing={2} sx={{alignItems:"center"}}>
-          <Typography variant="h6">タイプを選択</Typography>
-          <Button variant="outlined" onClick={() => setSelectedTypes([])}>
-            {" "}
-            リセット{" "}
-          </Button>
-        </Stack>
-        <Box sx={{ p: 1 }} />
-        <Box sx={{ display: "flex", flexWrap: "wrap", maxWidth: 720 }}>
-          {types.map((type) => (
+      <Paper
+        elevation={3}
+        sx={{
+          p: "16px 0px 16px 0px",
+          width: "fit-content",
+          borderRadius: "40px 8px 40px 8px",
+          backgroundColor: "#E7EDF5",
+        }}
+      >
+        <Box sx={{ justifyItems: "center", alignContent: "center" }}>
+          <Paper
+            elevation={3}
+            sx={{
+              flexDirection: "row",
+              display: "flex",
+              backgroundColor: "#ECF4F8",
+              alignItems: "center",
+              borderRadius: 40,
+              p: "8px 16px 8px 16px",
+              width: "fit-content",
+            }}
+          >
+            <Typography>タイプを選択（2つまで）</Typography>
+            <Box sx={{ p: 1 }} />
             <Button
-              variant={
-              selectedTypes.includes(type.jpn) ? "outlined" : "contained"
-              }
-              key={type.jpn}
+              variant="outlined"
+              onClick={() => setSelectedTypes([])}
               sx={{
-              m: 1,
-              bgcolor: selectedTypes.includes(type.jpn)
-                ? "#FFFFFF"
-                : `#${type.color}`,
-              color: selectedTypes.includes(type.jpn)
-                ? `#${type.color}`
-                : "#FFFFFF",
-              border: `1px solid #${type.color}`,
-              width: 106,
-              height: 60,
+                borderRadius: 40,
+                color: "#FF0000",
+                border: `1px solid #FF0000`,
               }}
-              onClick={() => handleButtonClick(type.jpn)}
             >
-              {type.eng}
-              <br />
-              {type.jpn}
+              {" "}
+              リセット{" "}
             </Button>
-          ))}
+          </Paper>
+          <Box sx={{ p: 1 }} />
+          <Box
+            sx={{
+              display: "flex",
+              flexWrap: "wrap",
+              width: "fit-content",
+              maxWidth: 620,
+            }}
+          >
+            {types.map((type) => (
+              <Button
+                variant={
+                  selectedTypes.includes(type.jpn) ? "outlined" : "contained"
+                }
+                key={type.jpn}
+                sx={{
+                  m: 1,
+                  bgcolor: selectedTypes.includes(type.jpn)
+                    ? "#FFFFFF"
+                    : `#${type.color}`,
+                  color: selectedTypes.includes(type.jpn)
+                    ? `#${type.color}`
+                    : "#FFFFFF",
+                  border: `1px solid #${type.color}`,
+                  width: 106,
+                  height: 60,
+                  borderRadius: "24px 8px 24px 8px",
+                }}
+                onClick={() => handleButtonClick(type.jpn)}
+              >
+                {type.eng}
+                <br />
+                {type.jpn}
+              </Button>
+            ))}
+          </Box>
         </Box>
       </Paper>
 
