@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Typography,
   IconButton,
@@ -8,11 +8,29 @@ import {
   Button,
 } from "@mui/material";
 import ChangeCircleIcon from "@mui/icons-material/ChangeCircle";
+import Wikidata from "./utils/API/wikidata";
 
-const App = () => {
+const App: React.FC = () => {
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
-  const pokemon: string = "ピカチュウ";
+  const [pokemon, setPokemon] = useState<{ ja: string; en: string }>({
+    ja: "",
+    en: "",
+  });
+
+  useEffect(() => {
+    const fetchPokemon = async () => {
+      try {
+        const result = await Wikidata.fetchRandomPokemon();
+        setPokemon(result);
+      } catch (error) {
+        console.error("Error fetching Pokemon:", error);
+      }
+    };
+
+    fetchPokemon();
+  }, []);
+
   const correctTypes: string[] = ["でんき"];
   const types = [
     { jpn: "ノーマル", eng: "nomal", color: "9FA19F" },
@@ -53,6 +71,20 @@ const App = () => {
       selectedTypes.every((type) => correctTypes.includes(type));
     setIsCorrect(isCorrect);
   };
+  const handleNextPokemon = () => {
+    // setIsCorrect(null);
+    // setSelectedTypes([]);
+    const fetchPokemon = async () => {
+      try {
+        const result = await Wikidata.fetchRandomPokemon();
+        setPokemon(result);
+      } catch (error) {
+        console.error("Error fetching Pokemon:", error);
+      }
+    };
+
+    fetchPokemon();
+  };
 
   return (
     <div
@@ -64,12 +96,18 @@ const App = () => {
       <Typography variant="h6">ポケモンのタイプを当てよう！</Typography>
       <Box sx={{ p: 2 }} />
 
-      <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
-        <Typography variant="h6">{pokemon}</Typography>
-        <IconButton>
-          <ChangeCircleIcon />
-        </IconButton>
-      </Stack>
+      <Paper sx={{ width: "fit-content", p: 2 }}>
+        <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
+          <Typography variant="h6" sx={{ minWidth: "200px" }}>
+            {pokemon.en}
+            <br />
+            {pokemon.ja}
+          </Typography>
+          <IconButton onClick={handleNextPokemon}>
+            <ChangeCircleIcon />
+          </IconButton>
+        </Stack>
+      </Paper>
       <Box sx={{ p: 2 }} />
       <Paper
         elevation={3}
@@ -109,7 +147,7 @@ const App = () => {
             </Button>
           </Paper>
           <Box sx={{ p: 1 }} />
-            <Box
+          <Box
             sx={{
               display: "flex",
               flexWrap: "wrap",
@@ -117,35 +155,35 @@ const App = () => {
               width: "100%",
               maxWidth: 620,
             }}
-            >
+          >
             {types.map((type) => (
               <Button
-              variant={
-                selectedTypes.includes(type.jpn) ? "outlined" : "contained"
-              }
-              key={type.jpn}
-              sx={{
-                m: 1,
-                flex: "1 1 calc(33.333% - 16px)",
-                bgcolor: selectedTypes.includes(type.jpn)
-                ? "#FFFFFF"
-                : `#${type.color}`,
-                color: selectedTypes.includes(type.jpn)
-                ? `#${type.color}`
-                : "#FFFFFF",
-                border: `1px solid #${type.color}`,
-                width: "auto",
-                height: 60,
-                borderRadius: "24px 8px 24px 8px",
-              }}
-              onClick={() => handleButtonClick(type.jpn)}
+                variant={
+                  selectedTypes.includes(type.jpn) ? "outlined" : "contained"
+                }
+                key={type.jpn}
+                sx={{
+                  m: 1,
+                  flex: "1 1 calc(33.333% - 16px)",
+                  bgcolor: selectedTypes.includes(type.jpn)
+                    ? "#FFFFFF"
+                    : `#${type.color}`,
+                  color: selectedTypes.includes(type.jpn)
+                    ? `#${type.color}`
+                    : "#FFFFFF",
+                  border: `1px solid #${type.color}`,
+                  width: "auto",
+                  height: 60,
+                  borderRadius: "24px 8px 24px 8px",
+                }}
+                onClick={() => handleButtonClick(type.jpn)}
               >
-              {type.eng}
-              <br />
-              {type.jpn}
+                {type.eng}
+                <br />
+                {type.jpn}
               </Button>
             ))}
-            </Box>
+          </Box>
         </Box>
       </Paper>
 
