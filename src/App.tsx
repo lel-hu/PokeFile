@@ -109,41 +109,43 @@ const App = () => {
             </Button>
           </Paper>
           <Box sx={{ p: 1 }} />
-          <Box
+            <Box
             sx={{
               display: "flex",
               flexWrap: "wrap",
-              width: "fit-content",
+              justifyContent: "space-between",
+              width: "100%",
               maxWidth: 620,
             }}
-          >
+            >
             {types.map((type) => (
               <Button
-                variant={
-                  selectedTypes.includes(type.jpn) ? "outlined" : "contained"
-                }
-                key={type.jpn}
-                sx={{
-                  m: 1,
-                  bgcolor: selectedTypes.includes(type.jpn)
-                    ? "#FFFFFF"
-                    : `#${type.color}`,
-                  color: selectedTypes.includes(type.jpn)
-                    ? `#${type.color}`
-                    : "#FFFFFF",
-                  border: `1px solid #${type.color}`,
-                  width: 106,
-                  height: 60,
-                  borderRadius: "24px 8px 24px 8px",
-                }}
-                onClick={() => handleButtonClick(type.jpn)}
+              variant={
+                selectedTypes.includes(type.jpn) ? "outlined" : "contained"
+              }
+              key={type.jpn}
+              sx={{
+                m: 1,
+                flex: "1 1 calc(33.333% - 16px)",
+                bgcolor: selectedTypes.includes(type.jpn)
+                ? "#FFFFFF"
+                : `#${type.color}`,
+                color: selectedTypes.includes(type.jpn)
+                ? `#${type.color}`
+                : "#FFFFFF",
+                border: `1px solid #${type.color}`,
+                width: "auto",
+                height: 60,
+                borderRadius: "24px 8px 24px 8px",
+              }}
+              onClick={() => handleButtonClick(type.jpn)}
               >
-                {type.eng}
-                <br />
-                {type.jpn}
+              {type.eng}
+              <br />
+              {type.jpn}
               </Button>
             ))}
-          </Box>
+            </Box>
         </Box>
       </Paper>
 
