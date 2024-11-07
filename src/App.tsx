@@ -1,15 +1,19 @@
+import { useState } from "react";
 import {
-  Box,
-  Button,
-  IconButton,
-  Paper,
-  Stack,
   Typography,
+  IconButton,
+  Stack,
+  Box,
+  Paper,
+  Button,
 } from "@mui/material";
 import ChangeCircleIcon from "@mui/icons-material/ChangeCircle";
 
-function App() {
+const App = () => {
+  const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
+  const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
   const pokemon: string = "ピカチュウ";
+  const correctTypes: string[] = ["でんき"];
   const types = [
     { jpn: "ノーマル", eng: "nomal", color: "9FA19F" },
     { jpn: "ほのお", eng: "fire", color: "F08030" },
@@ -31,66 +35,129 @@ function App() {
     { jpn: "フェアリー", eng: "fairy", color: "EE99AC" },
   ];
 
+  const handleButtonClick = (type: string) => {
+    setSelectedTypes((prevSelectedTypes) => {
+      if (prevSelectedTypes.includes(type)) {
+        return prevSelectedTypes.filter((t) => t !== type);
+      } else if (prevSelectedTypes.length < 2) {
+        return [...prevSelectedTypes, type];
+      } else {
+        return [type];
+      }
+    });
+  };
+
+  const handleCheckAnswer = () => {
+    const isCorrect =
+      selectedTypes.length === correctTypes.length &&
+      selectedTypes.every((type) => correctTypes.includes(type));
+    setIsCorrect(isCorrect);
+  };
+
   return (
     <div
       style={{
-        // background: "red",
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-        width: "100%",
+        padding: "10px",
       }}
     >
-      <div
-        style={{
-          // background: "blue",
-          display: "flex",
-          flexDirection: "column",
-          padding: "20px",
+      <Typography variant="h4">PokeFile</Typography>
+      <Typography variant="h6">ポケモンのタイプを当てよう！</Typography>
+      <Box sx={{ p: 2 }} />
+
+      <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
+        <Typography variant="h6">{pokemon}</Typography>
+        <IconButton>
+          <ChangeCircleIcon />
+        </IconButton>
+      </Stack>
+      <Box sx={{ p: 2 }} />
+      <Paper
+        elevation={3}
+        sx={{
+          p: "16px 0px 16px 0px",
+          width: "fit-content",
+          borderRadius: "40px 8px 40px 8px",
+          backgroundColor: "#E7EDF5",
         }}
       >
-        <Box sx={{ p: 4 }}>
-          <Typography variant="h3">PokeFile</Typography>
-          <Typography variant="h6">
-            このポケモンのタイプは何でしょう？
-          </Typography>
-          <Box sx={{ p: 2 }} />
-
-          <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
-            <Typography variant="h6">{pokemon}</Typography>
-            <IconButton>
-              <ChangeCircleIcon />
-            </IconButton>
-          </Stack>
-          <Box sx={{ p: 2 }} />
-            <Paper elevation={3} sx={{ p: 2, width: "fit-content" }}>
-            <Typography variant="h6">タイプを選択</Typography>
-            <Box sx={{ display: "flex", flexWrap: "wrap", maxWidth: 720 }}>
-              {types.map((type) => (
+        <Box sx={{ justifyItems: "center", alignContent: "center" }}>
+          <Paper
+            elevation={3}
+            sx={{
+              flexDirection: "row",
+              display: "flex",
+              backgroundColor: "#ECF4F8",
+              alignItems: "center",
+              borderRadius: 40,
+              p: "8px 16px 8px 16px",
+              width: "fit-content",
+            }}
+          >
+            <Typography>タイプを選択（2つまで）</Typography>
+            <Box sx={{ p: 1 }} />
+            <Button
+              variant="outlined"
+              onClick={() => setSelectedTypes([])}
+              sx={{
+                borderRadius: 40,
+                color: "#FF0000",
+                border: `1px solid #FF0000`,
+              }}
+            >
+              {" "}
+              リセット{" "}
+            </Button>
+          </Paper>
+          <Box sx={{ p: 1 }} />
+          <Box
+            sx={{
+              display: "flex",
+              flexWrap: "wrap",
+              width: "fit-content",
+              maxWidth: 620,
+            }}
+          >
+            {types.map((type) => (
               <Button
-                variant="contained"
+                variant={
+                  selectedTypes.includes(type.jpn) ? "outlined" : "contained"
+                }
                 key={type.jpn}
                 sx={{
-                m: 1,
-                bgcolor: `#${type.color}`,
-                width: 120,
-                height: 60,
-                flex: "1 1 calc(16.66% - 16px)", // 16.66% for 6 items per row, minus margin
-                maxWidth: "calc(16.66% - 16px)",
+                  m: 1,
+                  bgcolor: selectedTypes.includes(type.jpn)
+                    ? "#FFFFFF"
+                    : `#${type.color}`,
+                  color: selectedTypes.includes(type.jpn)
+                    ? `#${type.color}`
+                    : "#FFFFFF",
+                  border: `1px solid #${type.color}`,
+                  width: 106,
+                  height: 60,
+                  borderRadius: "24px 8px 24px 8px",
                 }}
+                onClick={() => handleButtonClick(type.jpn)}
               >
+                {type.eng}
+                <br />
                 {type.jpn}
               </Button>
-              ))}
-            </Box>
-            </Paper>
-
-          <Box sx={{ p: 2 }} />
-          <Button variant="contained">答え合わせ</Button>
+            ))}
+          </Box>
         </Box>
-      </div>
+      </Paper>
+
+      <Box sx={{ p: 2 }} />
+      <Button variant="contained" onClick={handleCheckAnswer}>
+        答え合わせ / checking answers
+      </Button>
+      {isCorrect !== null && (
+        <Typography variant="h6">
+          {isCorrect ? "正解です！" : "不正解です。"}
+        </Typography>
+      )}
     </div>
   );
-}
+};
 
 export default App;
