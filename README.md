@@ -1,50 +1,15 @@
-# React + TypeScript + Vite
+# PokeFile
+以下のURLからアプリにアクセスできます↓<br>
+https://pokefile-78186.web.app/
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+## 遊び方
+- 起動すると，ランダムに選ばれたポケモン一匹が画面に表示されます．
+- そのポケモンのタイプを選択し，答え合わせをしましょう．（タイプは最大2つまで選択できます．）
 
-Currently, two official plugins are available:
+## ローカル環境でのアプリの起動方法（コードの中身を見たい人向け）
+- このアプリを起動するには[Node.js](https://nodejs.org/en/download/package-manager)のインストールが必要です．ターミナルで`node --version`を打ち込んだ時に，バージョンが表示されていれば正常にインストールされています．エラーが出力された場合はインストールを行なってください．
+- このリポジトリをZipファイルでダウンロードし，展開します．
+- ターミナルを開き，先ほど展開したファイルに移動します．
+- ターミナルで`npm install`を実行してください．必要なファイルがインストールされます．
+- ターミナルで`npm run dev`を実行し，ブラウザでhttp://localhost:5173/ を開くことでアプリを確認できます．
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
-
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
-
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
-
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
-```
