@@ -22,17 +22,20 @@ const App: React.FC = () => {
     ja: string;
     en: string;
     types: string[];
+    image: string;
   }>({
     ja: "",
     en: "",
     types: [],
+    image: "",
   });
 
   useEffect(() => {
     const fetchPokemon = async () => {
       try {
         const result = await Wikidata.fetchRandomPokemon();
-        setPokemon(result);
+        const imageUrl = await fetchPokemonImage(result.en); // 画像URLを取得
+        setPokemon({ ...result, image: imageUrl });
       } catch (error) {
         console.error("Error fetching Pokemon:", error);
       }
@@ -40,6 +43,21 @@ const App: React.FC = () => {
 
     fetchPokemon();
   }, []);
+
+  // PokeAPIを使ってポケモン画像を取得する関数
+  const fetchPokemonImage = async (pokemonName: string): Promise<string> => {
+    try {
+      const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName.toLowerCase()}`);
+      if (!response.ok) {
+        throw new Error("ポケモンのデータ取得に失敗しました");
+      }
+      const data = await response.json();
+      return data.sprites.other['official-artwork'].front_default;
+    } catch (error) {
+      console.error("Error fetching image from PokeAPI:", error);
+      return ""; // エラーハンドリング: 画像が取得できない場合の処理
+    }
+  };
 
   const correctTypes: string[] = pokemon.types;
   const types = [
@@ -93,7 +111,8 @@ const App: React.FC = () => {
     const fetchPokemon = async () => {
       try {
         const result = await Wikidata.fetchRandomPokemon();
-        setPokemon(result);
+        const imageUrl = await fetchPokemonImage(result.en); // 画像URLを取得
+        setPokemon({ ...result, image: imageUrl });
       } catch (error) {
         console.error("Error fetching Pokemon:", error);
       }
@@ -130,6 +149,11 @@ const App: React.FC = () => {
 
           <Paper sx={{ width: "fit-content", p: 2 }}>
             <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
+              {/* 画像を表示 */}
+              {pokemon.image ? (
+                <img src={pokemon.image} alt={pokemon.en} width="100" />
+              ) : (
+                <Typography variant="h6">画像が見つかりません</Typography>)}
               <Typography variant="h6" sx={{ minWidth: "200px" }}>
                 {pokemon.en}
                 <br />
