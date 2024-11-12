@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import ChangeCircleIcon from "@mui/icons-material/ChangeCircle";
 import Wikidata from "./utils/API/wikidata";
+import Logo from "./assets/PokeFile_logo.png";
 
 const App: React.FC = () => {
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
@@ -103,7 +104,7 @@ const App: React.FC = () => {
       <AppBar position="static" color="default" sx={{ alignItems: "center" }}>
         <Toolbar>
           <img
-            src="src/assets/PokeFile_logo.png"
+            src={Logo}
             alt="PokeFile Logo"
             style={{ height: 40 }}
           />
