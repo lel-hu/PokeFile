@@ -6,6 +6,8 @@ import {
   Box,
   Paper,
   Button,
+  AppBar,
+  Toolbar,
 } from "@mui/material";
 import ChangeCircleIcon from "@mui/icons-material/ChangeCircle";
 import Wikidata from "./utils/API/wikidata";
@@ -13,9 +15,14 @@ import Wikidata from "./utils/API/wikidata";
 const App: React.FC = () => {
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
   const [isCorrect, setIsCorrect] = useState<boolean | null>(null);
-  const [pokemon, setPokemon] = useState<{ ja: string; en: string }>({
+  const [pokemon, setPokemon] = useState<{
+    ja: string;
+    en: string;
+    types: string[];
+  }>({
     ja: "",
     en: "",
+    types: [],
   });
 
   useEffect(() => {
@@ -31,7 +38,7 @@ const App: React.FC = () => {
     fetchPokemon();
   }, []);
 
-  const correctTypes: string[] = ["でんき"];
+  const correctTypes: string[] = pokemon.types;
   const types = [
     { jpn: "ノーマル", eng: "nomal", color: "9FA19F" },
     { jpn: "ほのお", eng: "fire", color: "F08030" },
@@ -66,14 +73,20 @@ const App: React.FC = () => {
   };
 
   const handleCheckAnswer = () => {
+    console.log("Selected Types:", selectedTypes);
+    console.log("Correct Types:", correctTypes);
     const isCorrect =
       selectedTypes.length === correctTypes.length &&
-      selectedTypes.every((type) => correctTypes.includes(type));
+      selectedTypes.every((selectedType) =>
+        correctTypes.some((correctType) => correctType.includes(selectedType))
+      );
     setIsCorrect(isCorrect);
+    console.log("Is Correct:", isCorrect);
   };
+
   const handleNextPokemon = () => {
-    // setIsCorrect(null);
-    // setSelectedTypes([]);
+    setIsCorrect(null); // 正誤結果をリセット
+    setSelectedTypes([]); // 選択中のタイプをリセット
     const fetchPokemon = async () => {
       try {
         const result = await Wikidata.fetchRandomPokemon();
@@ -82,121 +95,143 @@ const App: React.FC = () => {
         console.error("Error fetching Pokemon:", error);
       }
     };
-
     fetchPokemon();
   };
 
   return (
-    <div
-      style={{
-        padding: "10px",
-      }}
-    >
-      <Typography variant="h4">PokeFile</Typography>
-      <Typography variant="h6">ポケモンのタイプを当てよう！</Typography>
-      <Box sx={{ p: 2 }} />
-
-      <Paper sx={{ width: "fit-content", p: 2 }}>
-        <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
-          <Typography variant="h6" sx={{ minWidth: "200px" }}>
-            {pokemon.en}
-            <br />
-            {pokemon.ja}
-          </Typography>
-          <IconButton onClick={handleNextPokemon}>
-            <ChangeCircleIcon />
-          </IconButton>
-        </Stack>
-      </Paper>
-      <Box sx={{ p: 2 }} />
-      <Paper
-        elevation={3}
-        sx={{
-          p: "16px 0px 16px 0px",
-          width: "fit-content",
-          borderRadius: "40px 8px 40px 8px",
-          backgroundColor: "#E7EDF5",
+    <>
+      <AppBar position="static" color="default" sx={{ alignItems: "center" }}>
+        <Toolbar>
+          <img
+            src="src/assets/PokeFile_logo.png"
+            alt="PokeFile Logo"
+            style={{ height: 40 }}
+          />
+        </Toolbar>
+      </AppBar>
+      <div
+        style={{
+          padding: "10px",
+          backgroundColor: "#e7edf5",
+          display: "flex",
+          justifyContent: "center",
         }}
       >
-        <Box sx={{ justifyItems: "center", alignContent: "center" }}>
+        <div
+          style={{
+            padding: "10px",
+            backgroundColor: "#e7edf5",
+          }}
+        >
+          <Typography variant="h6">ポケモンのタイプを当てよう！</Typography>
+          <Box sx={{ p: 1 }} />
+
+          <Paper sx={{ width: "fit-content", p: 2 }}>
+            <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
+              <Typography variant="h6" sx={{ minWidth: "200px" }}>
+                {pokemon.en}
+                <br />
+                {pokemon.ja}
+              </Typography>
+              <IconButton onClick={handleNextPokemon}>
+                <ChangeCircleIcon />
+              </IconButton>
+            </Stack>
+          </Paper>
+          <Box sx={{ p: 1 }} />
           <Paper
             elevation={3}
             sx={{
-              flexDirection: "row",
-              display: "flex",
-              backgroundColor: "#ECF4F8",
-              alignItems: "center",
-              borderRadius: 40,
-              p: "8px 16px 8px 16px",
+              p: "16px 0px 16px 0px",
               width: "fit-content",
+              borderRadius: "40px 8px 40px 8px",
+              backgroundColor: "#E7EDF5",
             }}
           >
-            <Typography>タイプを選択（2つまで）</Typography>
-            <Box sx={{ p: 1 }} />
-            <Button
-              variant="outlined"
-              onClick={() => setSelectedTypes([])}
-              sx={{
-                borderRadius: 40,
-                color: "#FF0000",
-                border: `1px solid #FF0000`,
-              }}
-            >
-              {" "}
-              リセット{" "}
-            </Button>
-          </Paper>
-          <Box sx={{ p: 1 }} />
-          <Box
-            sx={{
-              display: "flex",
-              flexWrap: "wrap",
-              justifyContent: "space-between",
-              width: "100%",
-              maxWidth: 620,
-            }}
-          >
-            {types.map((type) => (
-              <Button
-                variant={
-                  selectedTypes.includes(type.jpn) ? "outlined" : "contained"
-                }
-                key={type.jpn}
+            <Box sx={{ justifyItems: "center", alignContent: "center" }}>
+              <Paper
+                elevation={3}
                 sx={{
-                  m: 1,
-                  flex: "1 1 calc(33.333% - 16px)",
-                  bgcolor: selectedTypes.includes(type.jpn)
-                    ? "#FFFFFF"
-                    : `#${type.color}`,
-                  color: selectedTypes.includes(type.jpn)
-                    ? `#${type.color}`
-                    : "#FFFFFF",
-                  border: `1px solid #${type.color}`,
-                  width: "auto",
-                  height: 60,
-                  borderRadius: "24px 8px 24px 8px",
+                  flexDirection: "row",
+                  display: "flex",
+                  backgroundColor: "#ECF4F8",
+                  alignItems: "center",
+                  borderRadius: 40,
+                  p: "8px 16px 8px 16px",
+                  width: "fit-content",
                 }}
-                onClick={() => handleButtonClick(type.jpn)}
               >
-                {type.eng}
-                <br />
-                {type.jpn}
-              </Button>
-            ))}
-          </Box>
-        </Box>
-      </Paper>
+                <Typography>タイプを選択（2つまで）</Typography>
+                <Box sx={{ p: 1 }} />
+                <Button
+                  variant="outlined"
+                  onClick={() => setSelectedTypes([])}
+                  sx={{
+                    borderRadius: 40,
+                    color: "#FF0000",
+                    border: `1px solid #FF0000`,
+                  }}
+                >
+                  {" "}
+                  リセット{" "}
+                </Button>
+              </Paper>
+              <Box sx={{ p: "4px" }} />
+              <Box
+                sx={{
+                  maxWidth: 720,
+                  display: "flex",
+                  flexWrap: "wrap",
+                  width: "fit-content",
+                  justifyContent: "center",
+                }}
+              >
+                {types.map((type) => (
+                  <Button
+                    variant={
+                      selectedTypes.includes(type.jpn)
+                        ? "outlined"
+                        : "contained"
+                    }
+                    key={type.jpn}
+                    sx={{
+                      m: "4px",
+                      flex: "1 1 calc(33.333% - 16px)",
+                      bgcolor: selectedTypes.includes(type.jpn)
+                        ? "#FFFFFF"
+                        : `#${type.color}`,
+                      color: selectedTypes.includes(type.jpn)
+                        ? `#${type.color}`
+                        : "#FFFFFF",
+                      border: `1px solid #${type.color}`,
+                      width: "auto",
+                      height: 56,
+                      maxWidth: 140,
+                      borderRadius: "24px 8px 24px 8px",
+                    }}
+                    onClick={() => handleButtonClick(type.jpn)}
+                  >
+                    {type.eng}
+                    <br />
+                    {type.jpn}
+                  </Button>
+                ))}
+              </Box>
+            </Box>
+          </Paper>
 
-      <Box sx={{ p: 2 }} />
-      <Button variant="contained" onClick={handleCheckAnswer}>
-        答え合わせ / checking answers
-      </Button>
-      {isCorrect !== null && (
-        <Typography variant="h6">
-          {isCorrect ? "正解です！" : "不正解です。"}
-        </Typography>
-      )}
-    </div>
+          <Box sx={{ p: 2 }} />
+          <Button variant="contained" onClick={handleCheckAnswer}>
+            答え合わせ / checking answers
+          </Button>
+          {isCorrect !== null && (
+            <Typography variant="h6">
+              {isCorrect ? "正解です！" : "不正解です。"}
+            </Typography>
+          )}
+        </div>
+      </div>
+    </>
   );
 };
 
