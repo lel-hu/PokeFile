@@ -8,9 +8,11 @@ import {
   Button,
   AppBar,
   Toolbar,
+  Drawer,
 } from "@mui/material";
 import ChangeCircleIcon from "@mui/icons-material/ChangeCircle";
 import Wikidata from "./utils/API/wikidata";
+import SendIcon from "@mui/icons-material/Send";
 import Logo from "./assets/PokeFile_logo.png";
 
 const App: React.FC = () => {
@@ -103,11 +105,7 @@ const App: React.FC = () => {
     <>
       <AppBar position="static" color="default" sx={{ alignItems: "center" }}>
         <Toolbar>
-          <img
-            src={Logo}
-            alt="PokeFile Logo"
-            style={{ height: 40 }}
-          />
+          <img src={Logo} alt="PokeFile Logo" style={{ height: 40 }} />
         </Toolbar>
       </AppBar>
       <div
@@ -122,6 +120,9 @@ const App: React.FC = () => {
           style={{
             padding: "10px",
             backgroundColor: "#e7edf5",
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
           }}
         >
           <Typography variant="h6">ポケモンのタイプを当てよう！</Typography>
@@ -221,15 +222,35 @@ const App: React.FC = () => {
             </Box>
           </Paper>
 
-          <Box sx={{ p: 2 }} />
-          <Button variant="contained" onClick={handleCheckAnswer}>
-            答え合わせ / checking answers
+          <Box sx={{ p: 1 }} />
+          <Button
+            variant="contained"
+            onClick={handleCheckAnswer}
+            sx={{
+              flexDirection: "row",
+              display: "flex",
+              backgroundColor: "#03A9F4",
+              alignItems: "center",
+              borderRadius: 40,
+              width: 320,
+              height: 56,
+            }}
+            endIcon={<SendIcon />}
+          >
+            答え合わせ
+            <br />
+            checking answers
           </Button>
-          {isCorrect !== null && (
-            <Typography variant="h6">
+          {isCorrect !== null && <></>}
+          <Drawer
+            anchor={"bottom"}
+            open={isCorrect !== null}
+            onClose={() => setIsCorrect(null)}
+          >
+            <Typography variant="h6" sx={{ p: 16 }}>
               {isCorrect ? "正解です！" : "不正解です。"}
             </Typography>
-          )}
+          </Drawer>
         </div>
       </div>
     </>
