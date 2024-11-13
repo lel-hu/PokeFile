@@ -14,6 +14,7 @@ import ChangeCircleIcon from "@mui/icons-material/ChangeCircle";
 import Wikidata from "./utils/API/wikidata";
 import SendIcon from "@mui/icons-material/Send";
 import Logo from "./assets/PokeFile_logo.png";
+import NoImage from "./assets/no_image.png";
 
 const App: React.FC = () => {
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
@@ -47,12 +48,14 @@ const App: React.FC = () => {
   // PokeAPIを使ってポケモン画像を取得する関数
   const fetchPokemonImage = async (pokemonName: string): Promise<string> => {
     try {
-      const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${pokemonName.toLowerCase()}`);
+      const response = await fetch(
+        `https://pokeapi.co/api/v2/pokemon/${pokemonName.toLowerCase()}`
+      );
       if (!response.ok) {
         throw new Error("ポケモンのデータ取得に失敗しました");
       }
       const data = await response.json();
-      return data.sprites.other['official-artwork'].front_default;
+      return data.sprites.other["official-artwork"].front_default;
     } catch (error) {
       console.error("Error fetching image from PokeAPI:", error);
       return ""; // エラーハンドリング: 画像が取得できない場合の処理
@@ -153,8 +156,13 @@ const App: React.FC = () => {
               {pokemon.image ? (
                 <img src={pokemon.image} alt={pokemon.en} width="100" />
               ) : (
-                <Typography variant="h6">画像が見つかりません</Typography>)}
-              <Typography variant="h6" sx={{ minWidth: "200px" }}>
+                <img
+                  src={NoImage}
+                  alt="画像が見つかりませんでした"
+                  width="100"
+                />
+              )}
+              <Typography variant="h6" sx={{ minWidth: "160px" }}>
                 {pokemon.en}
                 <br />
                 {pokemon.ja}
@@ -170,7 +178,7 @@ const App: React.FC = () => {
             sx={{
               p: "16px 0px 16px 0px",
               width: "fit-content",
-              borderRadius: "40px 8px 40px 8px",
+              borderRadius: "32px 8px 32px 8px",
               backgroundColor: "#E7EDF5",
             }}
           >
