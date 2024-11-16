@@ -1,5 +1,5 @@
 // 次のポケモンを取得する関数
-import { fetchPokemonImage } from "./fetchPokemonImage";
+import { fetchPokemonImage } from "./API/fetchPokemonImage";
 import Wikidata from "./API/wikidata";
 
 export const handleNextPokemon = async (

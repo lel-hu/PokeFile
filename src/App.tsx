@@ -15,7 +15,7 @@ import CheckingAnswerButton from "./component/CheckingAnswerButton";
 import ResetButton from "./component/ResetButton";
 import TopAppBar from "./component/TopAppBar";
 import { types } from "./utils/typeData";
-import { fetchPokemonImage } from "./utils/fetchPokemonImage";
+import { fetchPokemonImage } from "./utils/API/fetchPokemonImage";
 import { handleTypeButtonClick } from "./utils/handleTypeButtonClick";
 import { handleCheckAnswer } from "./utils/handleCheckAnswer";
 import { handleNextPokemon } from "./utils/handleNextPokemon";
