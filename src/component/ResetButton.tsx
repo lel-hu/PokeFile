@@ -15,7 +15,7 @@ function ResetButton({ setSelectedTypes }: ResetButtonProps) {
         border: `1px solid #FF0000`,
       }}
     >
-      リセット
+      {"Reset"}
     </Button>
   );
 }

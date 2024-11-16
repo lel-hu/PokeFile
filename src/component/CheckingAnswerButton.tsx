@@ -33,7 +33,9 @@ function CheckingAnswerButton({
         }}
       >
         <Typography variant="caption">Check Answer</Typography>
-        <Typography sx={{ marginTop: -0.8 }}>こたえあわせ</Typography>
+        <Typography sx={{ marginTop: -0.8, fontWeight: "bold" }}>
+          こたえあわせ
+        </Typography>
       </Box>
       <Box
         sx={{

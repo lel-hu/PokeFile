@@ -1,15 +1,6 @@
 import { useEffect, useState } from "react";
-import {
-  Typography,
-  IconButton,
-  Stack,
-  Box,
-  Paper,
-  Drawer,
-} from "@mui/material";
-import ChangeCircleIcon from "@mui/icons-material/ChangeCircle";
+import { Typography, Box, Paper, Drawer } from "@mui/material";
 import Wikidata from "./utils/API/wikidata";
-import NoImage from "./assets/no_image.png";
 import TypeButton from "./component/TypeButton";
 import CheckingAnswerButton from "./component/CheckingAnswerButton";
 import ResetButton from "./component/ResetButton";
@@ -19,6 +10,7 @@ import { fetchPokemonImage } from "./utils/API/fetchPokemonImage";
 import { handleTypeButtonClick } from "./utils/handleTypeButtonClick";
 import { handleCheckAnswer } from "./utils/handleCheckAnswer";
 import { handleNextPokemon } from "./utils/handleNextPokemon";
+import PokemonDisplayContainer from "./component/PokemonDisplayContainer";
 
 const App: React.FC = () => {
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
@@ -63,35 +55,12 @@ const App: React.FC = () => {
           justifyContent: "center",
         }}
       >
-        <Typography variant="h6">ポケモンのタイプを当てよう！</Typography>
-        <Box sx={{ p: 1 }} />
-
-        <Paper sx={{ width: "fit-content", p: 2 }}>
-          <Stack direction="row" spacing={1} sx={{ alignItems: "center" }}>
-            {/* 画像を表示 */}
-            {pokemon.image ? (
-              <img src={pokemon.image} alt={pokemon.en} width="100" />
-            ) : (
-              <img src={NoImage} alt="画像が見つかりませんでした" width="100" />
-            )}
-            <Typography variant="h6" sx={{ minWidth: "160px" }}>
-              {pokemon.en}
-              <br />
-              {pokemon.ja}
-            </Typography>
-            <IconButton
-              onClick={async () =>
-                await handleNextPokemon(
-                  setIsCorrect,
-                  setSelectedTypes,
-                  setPokemon
-                )
-              }
-            >
-              <ChangeCircleIcon />
-            </IconButton>
-          </Stack>
-        </Paper>
+        <PokemonDisplayContainer
+          pokemon={pokemon}
+          handleNextPokemon={async () =>
+            await handleNextPokemon(setIsCorrect, setSelectedTypes, setPokemon)
+          }
+        />
         <Box sx={{ p: 1 }} />
         <Paper
           elevation={3}

@@ -33,13 +33,24 @@ function TypeButton({
         width: "auto",
         height: 56,
         maxWidth: 140,
-        borderRadius: "24px 8px 24px 8px",
+        borderRadius: "20px 8px 20px 8px",
       }}
       onClick={() => handleButtonClick(type.jpn)}
     >
       <Box sx={{ textAlign: "center" }}>
-        <Typography variant="caption"> {type.eng}</Typography>
-        <Typography sx={{ marginTop: -0.6, fontSize: "0.85rem" }}>
+        <Typography
+          variant="caption"
+          sx={{ fontSize: "0.7rem", fontWeight: "bold" }}
+        >
+          {type.eng}
+        </Typography>
+        <Typography
+          sx={{
+            marginTop: -0.5,
+            fontSize: "0.85rem",
+            fontWeight: "bold",
+          }}
+        >
           {type.jpn}
         </Typography>
       </Box>
