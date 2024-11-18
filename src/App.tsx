@@ -1,16 +1,17 @@
 import { useEffect, useState } from "react";
-import { Typography, Box, Paper, Drawer } from "@mui/material";
+import { Typography, Box, Paper } from "@mui/material";
 import Wikidata from "./utils/API/wikidata";
 import TypeButton from "./component/TypeButton";
 import CheckingAnswerButton from "./component/CheckingAnswerButton";
 import ResetButton from "./component/ResetButton";
 import TopAppBar from "./component/TopAppBar";
-import { types } from "./utils/typeData";
+import { typesList } from "./utils/typeData";
 import { fetchPokemonImage } from "./utils/API/fetchPokemonImage";
 import { handleTypeButtonClick } from "./utils/handleTypeButtonClick";
 import { handleCheckAnswer } from "./utils/handleCheckAnswer";
 import { handleNextPokemon } from "./utils/handleNextPokemon";
 import PokemonDisplayContainer from "./component/PokemonDisplayContainer";
+import AnswerDrawer from "./component/AnswerDrawer";
 
 const App: React.FC = () => {
   const [selectedTypes, setSelectedTypes] = useState<string[]>([]);
@@ -55,12 +56,7 @@ const App: React.FC = () => {
           justifyContent: "center",
         }}
       >
-        <PokemonDisplayContainer
-          pokemon={pokemon}
-          handleNextPokemon={async () =>
-            await handleNextPokemon(setIsCorrect, setSelectedTypes, setPokemon)
-          }
-        />
+        <PokemonDisplayContainer pokemon={pokemon} />
         <Box sx={{ p: 1 }} />
         <Paper
           elevation={3}
@@ -84,7 +80,17 @@ const App: React.FC = () => {
                 width: "fit-content",
               }}
             >
-              <Typography>タイプを選択（2つまで）</Typography>
+              <Box sx={{ p: 1 }} />
+              <Box
+                sx={{
+                  textAlign: "center",
+                }}
+              >
+                <Typography variant="caption">Select type (up to 2)</Typography>
+                <Typography sx={{ marginTop: -0.6, fontSize: "0.9rem" }}>
+                  タイプを選択（2つまで）
+                </Typography>
+              </Box>
               <Box sx={{ p: 1 }} />
               <ResetButton setSelectedTypes={setSelectedTypes} />
             </Paper>
@@ -98,7 +104,7 @@ const App: React.FC = () => {
                 justifyContent: "center",
               }}
             >
-              {types.map((type) => (
+              {typesList.map((type) => (
                 <TypeButton
                   selectedTypes={selectedTypes}
                   type={type}
@@ -116,15 +122,14 @@ const App: React.FC = () => {
             handleCheckAnswer(selectedTypes, correctTypes, setIsCorrect)
           }
         />
-        <Drawer
-          anchor={"bottom"}
-          open={isCorrect !== null}
-          onClose={() => setIsCorrect(null)}
-        >
-          <Typography variant="h6" sx={{ p: 16 }}>
-            {isCorrect ? "正解です！" : "不正解です。"}
-          </Typography>
-        </Drawer>
+        <AnswerDrawer
+          isCorrect={isCorrect}
+          setIsCorrect={setIsCorrect}
+          pokemon={pokemon}
+          handleNextPokemon={async () =>
+            await handleNextPokemon(setIsCorrect, setSelectedTypes, setPokemon)
+          }
+        />
       </div>
     </>
   );

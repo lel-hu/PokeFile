@@ -1,5 +1,5 @@
 // ポケモンのタイプ
-export const types = [
+export const typesList = [
   { jpn: "ノーマル", eng: "nomal", color: "9FA19F" },
   { jpn: "ほのお", eng: "fire", color: "F08030" },
   { jpn: "みず", eng: "water", color: "4592C4" },
