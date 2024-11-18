@@ -1,6 +1,6 @@
 # PokeFile
 以下のURLからアプリにアクセスできます↓<br>
-[https://pokefile-78186.web.app/](https://pokefile-final.web.app/)
+https://pokefile-final.web.app/
 
 ## 遊び方
 - 起動すると，ランダムに選ばれたポケモン一匹が画面に表示されます．
