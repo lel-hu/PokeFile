@@ -67,12 +67,22 @@ const App: React.FC = () => {
             backgroundColor: "#E7EDF5",
           }}
         >
-          <Box sx={{ justifyItems: "center", alignContent: "center" }}>
+          <Box
+            sx={{
+              justifyItems: "center",
+              alignContent: "center",
+              justifyContent: "center",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
             <Paper
               elevation={3}
               sx={{
-                flexDirection: "row",
                 display: "flex",
+                flexDirection: "row",
+                justifyContent: "center",
                 backgroundColor: "#ECF4F8",
                 alignItems: "center",
                 borderRadius: 40,
