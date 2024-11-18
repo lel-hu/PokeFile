@@ -1,0 +1,21 @@
+// ポケモンのタイプ
+export const types = [
+  { jpn: "ノーマル", eng: "nomal", color: "9FA19F" },
+  { jpn: "ほのお", eng: "fire", color: "F08030" },
+  { jpn: "みず", eng: "water", color: "4592C4" },
+  { jpn: "でんき", eng: "electric", color: "F8D030" },
+  { jpn: "くさ", eng: "grass", color: "78C850" },
+  { jpn: "こおり", eng: "ice", color: "98D8D8" },
+  { jpn: "かくとう", eng: "fighting", color: "C03028" },
+  { jpn: "どく", eng: "poison", color: "A040A0" },
+  { jpn: "じめん", eng: "ground", color: "E0C068" },
+  { jpn: "ひこう", eng: "flying", color: "A890F0" },
+  { jpn: "エスパー", eng: "psychic", color: "F85888" },
+  { jpn: "むし", eng: "bug", color: "A8B820" },
+  { jpn: "いわ", eng: "rock", color: "B8A038" },
+  { jpn: "ゴースト", eng: "ghost", color: "705898" },
+  { jpn: "ドラゴン", eng: "dragon", color: "7038F8" },
+  { jpn: "あく", eng: "dark", color: "705848" },
+  { jpn: "はがね", eng: "steel", color: "B8B8D0" },
+  { jpn: "フェアリー", eng: "fairy", color: "EE99AC" },
+];
