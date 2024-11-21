@@ -2,6 +2,10 @@
 以下のURLからアプリにアクセスできます↓<br>
 https://pokefile-final.web.app/
 
+<img src="https://github.com/user-attachments/assets/a17643e8-1597-422e-b832-29e06ea07ae6" width="300">
+<img src="https://github.com/user-attachments/assets/2344077d-cc92-4118-8def-1cc533d6465b" width="300">
+
+
 ## 遊び方
 - 起動すると，ランダムに選ばれたポケモン一匹が画面に表示されます．
 - そのポケモンのタイプを選択し，答え合わせをしましょう．（タイプは最大2つまで選択できます．）
